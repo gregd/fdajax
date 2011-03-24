@@ -68,7 +68,7 @@ FdAjax 0.5 can be installed on a PHP or RoR dedicated server. The most important
 
 * define the admin IP addresses in FdAjax configuration
 * configure a firewall so that the admin IP addresses will be protected by it
-* if you allow users to open more than one connection and redirect them to addresses www1, www2,�you have to set the session id cookies for the domain. The addresses www1, www2 should also indicate the same Lighttpd server.
+* if you allow users to open more than one connection and redirect them to addresses www1, www2, ... you have to set the session id cookies for the domain. The addresses www1, www2 should also indicate the same Lighttpd server.
 
 FdAjax module should be well tested and ready for production use by the end of February.
 
