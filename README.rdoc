@@ -1,3 +1,5 @@
+Work on this project has stopped. Mainly because Lighttpd web server isn't actively developed now. There is a chance that I'll port this module to work with Nginx. For more information about the module, take a look at the FdAjax.pdf. 
+
 = Full-Duplex Ajax module for Lighttpd
 
 January 25th, 2007 by Grzegorz Daniluk
