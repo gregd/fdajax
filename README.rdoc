@@ -1,0 +1,84 @@
+= Full-Duplex Ajax module for Lighttpd
+
+January 25th, 2007 by Grzegorz Daniluk
+
+Full-Duplex Ajax (FdAjax) is an extension of the Ajax technology. It allows to initiate communication from the HTTP server to the browser and therefore enables to easily create efficient solutions like web chats. It is the server that sends new messages to the browser when they appear. Normally the browser (JavaScript code) has to periodically check if there are new messages and send queries to the server. This is very expansive and causes delays.
+
+FdAjax is used on Refwell. Thanks to FdAjax, in most cases, you only have to click twice to get your help on Anslive. In order to find something on Google you have to click once. And in order to perform a much more complicated transaction between two users on Anslive you only have to click twice. Check it out. Watch our Anslive video tour.
+
+FdAjax is implemented as a module to the great Lighttpd web server. No additional components are needed. Therefore the configuration is easy and unified. E.g. you have to configure the SSL communication and the access control in the configuration file only once, it will also apply to the communication with the FdAjax module.
+
+The module can be used with different frameworks e.g. Ruby On Rails, PHP, Python. Upon completing the Lighttpd mod_proxy, FdAjax will also be easily integrated even with Java applications.
+
+At present the module is only available for the Lighttpd server. This server has been chosen due to its inner architecture (event loop). Thanks to this each client that is connected to a server via FdAjax takes up less than 1kB of memory and one file descriptor. There's no need to create new processes for each client, as it was done before.
+
+FdAjax is similar to Comet. The main difference is that Comet is an additional software installed next to HTTP server. FdAjax is an extension of Ajax therefore the prefix well describes the technology. The present web 2.0 applications can be described as Half-Duplex Ajax.
+
+= Installation
+
+At present the 0.5 version of FdAjax is available. It has to manually compiled and installed. In the future it will be simplified. It will also depend on the popularity of the module.
+
+This module is compiled and tested on Ubuntu Linux 6.06 and Lighttpd 1.4.13. It should also work well with older versions of Lighttod 1.4.x as well as other Linux distributions.
+
+= Configuration
+
+The present version gives the possibility to set parameters on the server level. It is sufficient at this stage of the project. E.g. Lighttpd configuration:
+
+server.modules = ( "mod_access", "mod_rewrite", "mod_accesslog",
+"mod_fdajax", "mod_fastcgi" )
+fdajax.ext = "fdajax"
+fdajax.admin_ips = ( "127.0.0.1" )
+fdajax.mes_live_max = 1000
+fdajax.win_timeout = 5000
+fdajax.log_level = 3
+fdajax.log_security = 3
+fdajax.js_peer_func = "gdclive.peer_call"
+fdajax.js_logout_code = "gdclive.stoploop();"
+fdajax.js_maxwin_code = "gdclive.maxwin();"
+fdajax.js_nocookies = "gdclive.nocookies();"
+fdajax.js_notfound = "gdclive.notfound();"
+fdajax.js_relogin = "gdclive.relogin"
+fdajax.js_redirect = "gdclive.redirect"
+fdajax.session_cookie = "_session_id"
+fdajax.merge_messages = "enable"
+
+= Commands
+
+There are two groups of commands: user commands and admin commands. The admin commands can only be called by your application, which decides who can connect to FdAjax and sends the information necessary to identify the user (session id) to the module.
+The following diagram shows how to use FdAjax commands in your application.
+
+For more details on commands please go to our download page. Please sign up to access this page.
+
+= Event dispatcher
+
+Due to the fact that the user can open several windows with our application, FdAjax has the ability to route messages to particular windows. In the stop command you have to specify for which type of events a given window waits. The basic event is chat. A window which does not have a given type of event will not receive a given message.
+
+Additionally to the type of event we can include a list of object IDs that are related to it. That means you can open two windows, each with a chat event but with a different chat ID. Thanks to this a user may open two chat windows at once and the messages will be routed to appropriate windows.
+
+In the application code you only have to give the chat ID in the stop command. In the JavaScript code you have to give the randomly generated win_id and chat ID to the wait command. The rest is done by FdAjax.
+
+If two windows have the same event and object ID, the message will be duplicated and FdAjax will route it to these two windows.
+
+An example of a window with one chat with the ID 10 :
+
+http://www.refwell.com/live.fdajax?cmd=wait&user_id=5&win_id=311645485&types=chat,10
+
+= Deployment
+
+FdAjax 0.5 can be installed on a PHP or RoR dedicated server. The most important things you have to do:
+
+* define the admin IP addresses in FdAjax configuration
+* configure a firewall so that the admin IP addresses will be protected by it
+* if you allow users to open more than one connection and redirect them to addresses www1, www2,…you have to set the session id cookies for the domain. The addresses www1, www2 should also indicate the same Lighttpd server.
+
+FdAjax module should be well tested and ready for production use by the end of February.
+
+= Technical details
+
+The way the module works is quite easy. FdAjax intercepts all HTTP requests to live.fdajax URL. In case of wait command, the connection is open until it receives a stop command with a message for a given user (chunked mode). Thanks to this solution one can avoid problems with Proxy servers which will not forward the answer to the browser until the HTTP server closes the connection. When a FdAjax window connection is closed, messages to that window will be queued and sent immediately as one package when the window calls the next wait command.
+
+If the user doesn't have problems with the connection they can use other commands which enable streaming and send messages without the need to end the FdAjax connection, which is more efficient. In such a case you should use the hidden IFRAME which will load the JavaScript code that needs to be executed.
+
+You have to remember that the browser will allow to create only two connections to one HTTP server. If you open a third one, the browser will stop loading content from your site and will wait until other connections will be closed. FdAjax checks if a given user already has a connection. If that's the case they will receive a JavaScript message asking to switch the browser to a different address.
+
+The following diagram shows the data stored by FdAjax for every user. This will give you a rough overview of how the module works.
