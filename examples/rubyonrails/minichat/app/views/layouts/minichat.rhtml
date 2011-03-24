@@ -1,0 +1,17 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html>
+  <head>
+    <title>Minichat with FdAjax</title>
+    <%= stylesheet_link_tag "scaffold" , "screen" , :media => "all" %>
+    <%= javascript_include_tag "prototype" %>
+    <%= javascript_include_tag "fdajax" %>
+    <%= javascript_include_tag "application" %>
+  </head>
+  <body>
+    <% if flash[:notice] -%>
+    <div id="notice" ><%= flash[:notice] %></div>
+    <% end -%>
+    <%= yield :layout %>
+  </body>
+</html>

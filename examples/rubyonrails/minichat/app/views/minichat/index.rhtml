@@ -1,0 +1,20 @@
+<div id="chat">
+  <h1>Hello <%= @user.name %> in Minichat FdAjax example</h1>
+  <% if @others.size > 0 -%>
+    Currently the following users are in this chat session: <%= @others.to_sentence %>
+  <% else -%>
+    There are no others users in this chat session.
+  <% end -%>
+  <ul id="chat_output">
+  </ul>
+  <% form_remote_tag :url => { :action => "new_message" } do -%>
+    <input type="text" id="message" name="message" />
+    <input type="submit" value="Send" />
+  <% end -%>
+</div>
+
+<%= link_to "Logout", :action => "logout" %>
+
+<script type="text/javascript">
+  fdajax.waitForEvent(<%= @user.id %>,'chat',<%= @created.tv_sec %>,<%= @created.tv_usec %>);
+</script>

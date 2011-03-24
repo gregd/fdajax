@@ -1,0 +1,7 @@
+To start this example execute following command:
+
+lighttpd -D -f lighttpd.conf
+
+Then open this page:
+
+http://localhost:3000

@@ -1,0 +1,2 @@
+module MinichatHelper
+end

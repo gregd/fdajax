@@ -1,0 +1,28 @@
+FdAjax module version 0.8, Thu, Mar 14, 2007
+
+FdAjax short compilation and installation doc (http://www.refwell.com/blog).
+
+1. Download and unpack Lighttpd 1.4.13 sources (http://www.lighttpd.net/download/).
+
+2. Copy FdAjax source files to Lighttpd src directory.
+
+3. Add the following lines to src/Makefile.am file (http://trac.lighttpd.net/trac/wiki/HowToWriteALighttpdPlugin).
+
+lib_LTLIBRARIES += mod_fdajax.la
+mod_fdajax_la_SOURCES = mod_fdajax.c mod_fdajax_parser.c mod_fdajax_peercall.c mod_fdajax_info.c mod_fdajax_users.c mod_fdajax_alerts.c mod_fdajax_chat.c mod_fdajax_messages.c mod_fdajax_windows.c mod_fdajax_groups.c mod_fdajax_events.c
+mod_fdajax_la_LDFLAGS = -module -export-dynamic -avoid-version -no-undefined
+mod_fdajax_la_LIBADD = $(common_libadd)
+
+4. Run ./configure --enable-maintainer-mode
+
+4a. You can enable other configure options, e.g. --with-openssl
+
+5. In case of problems with automake apply aclocal.m4.patch. There is some strange bug on my Ubuntu 6.06 Linux and Lighttpd 1.4.13.
+ However, the patch solves the problem. 
+
+6. Run make
+
+7. Run make install
+
+8. In case of problems you can try to the use compiled module located in the bin directory. Just copy the appropriate version to your directory with other Lighttpd modules.
+

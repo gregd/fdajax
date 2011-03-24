@@ -1,0 +1,6 @@
+
+#chat { margin: 2em; }
+#chat_output { overflow: auto; width: 50em; height: 15em; border: 1px solid #999; margin: 1em 0 1em 0; padding-left: 0px;}
+#chat input#message { list-style: none; width: 45em; margin: 0px; }
+.chat_message { list-style: none; clear: both; padding: 1px; margin: 1px; background-color: #f5f5f5; }
+.chat_message span { float: left; width: 8em; text-align: right; margin-right: 0.5em; }
