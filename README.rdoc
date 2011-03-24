@@ -24,25 +24,22 @@ This module is compiled and tested on Ubuntu Linux 6.06 and Lighttpd 1.4.13. It 
 
 The present version gives the possibility to set parameters on the server level. It is sufficient at this stage of the project. E.g. Lighttpd configuration:
 
-<pre>
-server.modules = ( "mod_access", "mod_rewrite", "mod_accesslog",
-"mod_fdajax", "mod_fastcgi" )
-fdajax.ext = "fdajax"
-fdajax.admin_ips = ( "127.0.0.1" )
-fdajax.mes_live_max = 1000
-fdajax.win_timeout = 5000
-fdajax.log_level = 3
-fdajax.log_security = 3
-fdajax.js_peer_func = "gdclive.peer_call"
-fdajax.js_logout_code = "gdclive.stoploop();"
-fdajax.js_maxwin_code = "gdclive.maxwin();"
-fdajax.js_nocookies = "gdclive.nocookies();"
-fdajax.js_notfound = "gdclive.notfound();"
-fdajax.js_relogin = "gdclive.relogin"
-fdajax.js_redirect = "gdclive.redirect"
-fdajax.session_cookie = "_session_id"
-fdajax.merge_messages = "enable"
-</pre>
+  server.modules = ( "mod_access", "mod_rewrite", "mod_accesslog", "mod_fdajax", "mod_fastcgi" )
+  fdajax.ext = "fdajax"
+  fdajax.admin_ips = ( "127.0.0.1" )
+  fdajax.mes_live_max = 1000
+  fdajax.win_timeout = 5000
+  fdajax.log_level = 3
+  fdajax.log_security = 3
+  fdajax.js_peer_func = "gdclive.peer_call"
+  fdajax.js_logout_code = "gdclive.stoploop();"
+  fdajax.js_maxwin_code = "gdclive.maxwin();"
+  fdajax.js_nocookies = "gdclive.nocookies();"
+  fdajax.js_notfound = "gdclive.notfound();"
+  fdajax.js_relogin = "gdclive.relogin"
+  fdajax.js_redirect = "gdclive.redirect"
+  fdajax.session_cookie = "_session_id"
+  fdajax.merge_messages = "enable"
 
 = Commands
 
